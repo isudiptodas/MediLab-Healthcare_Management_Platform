@@ -6,7 +6,7 @@ import { Doctor } from '../../models/Doctor.js';
 const router = express.Router();
 
 // doctor login
-router.post('/api/user/login', async (req, res) => {
+router.post('/api/doctor/login', async (req, res) => {
   const { email, password } = req.body;
 
     try{
@@ -61,7 +61,7 @@ router.post('/api/user/login', async (req, res) => {
 });
 
 // user register
-router.post('/api/user/register', async (req, res) => {
+router.post('/api/doctor/register', async (req, res) => {
   const { name, email, password, hospital, speciality } = req.body;
  
     try{
