@@ -1,6 +1,6 @@
 import { arcjet } from '../config/arcjetSecurity.js';
 
-export const arcjetSecure = async (req, res, next) => {
+export const arcjetProtect = async (req, res, next) => {
   
   const decision = await arcjet.protect(req, { requested: 5 }); 
 
