@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
 import bcrypt from 'bcrypt';
+import { User } from '../../models/User.js';
 import { Doctor } from '../../models/Doctor.js';
+import { Hospital } from '../../models/Hospital.js';
 import { arcjetProtect } from '../../middleware/arcjetProtect.js';
 
 const router = express.Router();
@@ -63,15 +65,17 @@ router.post('/api/doctor/login', arcjetProtect, async (req, res) => {
 
 // doctor register
 router.post('/api/doctor/register', arcjetProtect, async (req, res) => {
-  const { name, email, password, hospital, speciality } = req.body;
+  const { name, email, password, hospital, speciality, gender } = req.body;
  
     try{
-        const present = await Doctor.findOne({email});
+        const present1 = await User.findOne({email});
+        const present2 = await Doctor.findOne({email});
+        const present3 = await Hospital.findOne({email});
         
-        if(present){
+        if(present1 || present2 || present3){
             return res.status(400).json({
                 success: false,
-                message: "User already exist",
+                message: "Email linked with another user",
             });
         }
 
@@ -82,7 +86,8 @@ router.post('/api/doctor/register', arcjetProtect, async (req, res) => {
             email, 
             password: hashedPassword,
             hospital, 
-            speciality
+            speciality, 
+            gender
         });
 
         await newDoctor.save();
