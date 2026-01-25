@@ -5,7 +5,8 @@ import { User } from '../../models/User.js';
 import { Doctor } from '../../models/Doctor.js';
 import { Hospital } from '../../models/Hospital.js';
 import { arcjetProtect } from '../../middleware/arcjetProtect.js';
- 
+import axios from 'axios';
+
 const router = express.Router();
 
 // user login
@@ -72,6 +73,10 @@ router.post('/api/user/register', arcjetProtect, async (req, res) => {
                 message: "Email linked with another user",
             });
         }
+
+        const abstractAPI = process.env.ABSTRACT_API_KEY;
+
+        const isValid = await axios.get(`https://emailvalidation.abstractapi.com/v1?api_key=${abstractAPI}&email=${email}`);
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
