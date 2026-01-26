@@ -17,7 +17,7 @@ function DoctorWrapper({ children }: { children: React.ReactNode }) {
                     setVerified(true);
                 }
             } catch (error) {
-                <Navigate to="/auth/login" replace />;
+                setVerified(false);
             }
         }
 

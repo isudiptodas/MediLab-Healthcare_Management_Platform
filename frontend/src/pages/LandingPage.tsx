@@ -10,26 +10,26 @@ import { MdOutlinePerson2 } from "react-icons/md";
 import { motion } from 'framer-motion';
 import { IoSparklesSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { doctors } from "../data/demoDoctorList";
 import { Activity, useEffect, useState } from "react";
 import { speciality } from "../data/speciality";
 import { toast } from "sonner";
+import axios from "axios";
 
 type Doctor = {
     _id?: string,
     name: string;
     email: string;
-    hospital: string;
+    hospital?: string;
     speciality: string;
-    gender: string;
-    verified: boolean;
+    gender?: string;
+    verified?: boolean;
     created: Date;
 };
 
 
 function LandingPage() {
 
-    const [allDoctors, setAllDoctors] = useState(doctors);
+    const [allDoctors, setAllDoctors] = useState<Doctor[] | null>(null);
     const [genderVisible, setGenderVisible] = useState(false);
     const [specVisible, setSpecVisible] = useState(false);
     const [filteredDoctors, setFilteredDoctors] = useState<Doctor[] | null>(null);
@@ -42,17 +42,23 @@ function LandingPage() {
             return;
         }
 
-        const found = allDoctors.filter((doc) => {
-            return doc.name.toLowerCase().includes(input.toLowerCase());
-        });
+        if (allDoctors) {
+            const found = allDoctors.filter((doc) => {
+                return doc.name.toLowerCase().includes(input.toLowerCase());
+            });
 
-        setFilteredDoctors(found);
+            setFilteredDoctors(found);
+        }
     }
 
     useEffect(() => {
+        if (allDoctors === null) {
+            return;
+        }
+
         if (option === 'male' || option === 'female') {
             const found = allDoctors.filter((doc) => {
-                return doc.gender.toLowerCase() === option;
+                return doc?.gender?.toLowerCase() === option;
             });
 
             setFilteredDoctors(found);
@@ -65,6 +71,24 @@ function LandingPage() {
             setFilteredDoctors(found);
         }
     }, [option]);
+
+    useEffect(() => {
+        const fetchAllDoctors = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/api/all-doctors`);
+                
+                const filtered = res.data.found.filter((doc: Doctor) => {
+                    return doc.verified;
+                });
+                
+                setAllDoctors(filtered);
+            } catch (err: any) {
+
+            }
+        }
+
+        fetchAllDoctors();
+    }, []);
 
     return (
         <>
@@ -120,8 +144,8 @@ function LandingPage() {
                             })}
                         </div>
 
-                        <span onClick={() => {setGenderVisible(!genderVisible), setSpecVisible(false)}} className={`w-full cursor-pointer py-2 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
-                        <span onClick={() => {setSpecVisible(!specVisible), setGenderVisible(false)}} className={`w-full cursor-pointer py-2 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
+                        <span onClick={() => { setGenderVisible(!genderVisible), setSpecVisible(false) }} className={`w-full cursor-pointer py-2 lg:py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
+                        <span onClick={() => { setSpecVisible(!specVisible), setGenderVisible(false) }} className={`w-full cursor-pointer py-2 lg:py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
                     </div>
                 </div>
 
@@ -131,8 +155,8 @@ function LandingPage() {
                         {filteredDoctors?.map((doc, index) => {
                             return <div key={index} className={`w-full rounded-lg bg-gray-200 flex flex-col justify-start items-center py-4 px-3`}>
                                 <h1 className={`w-full text-black text-start font-semibold font-Telegraf text-xl`}>{doc.name}</h1>
-                                <p className={`w-full text-black text-start font-semibold font-Telegraf text-sm opacity-75 italic`}>{doc.speciality}</p>
-                                <p className={`w-full text-black text-start font-semibold font-Telegraf text-sm opacity-75 italic`}>{doc.gender}</p>
+                                <p className={`w-full ${doc.speciality ? "block" : "hidden"} text-black text-start font-semibold font-Telegraf text-sm opacity-75 italic`}>{doc.speciality}</p>
+                                <p className={`w-full ${doc.gender ? "block" : "hidden"} text-black text-start font-semibold font-Telegraf text-sm opacity-75 italic`}>{doc.gender}</p>
                                 <p className={`w-full bg-blue-500 text-white text-center rounded-lg active:opacity-75 duration-150 ease-in-out active:scale-95 cursor-pointer py-3 mt-2`}>More Info</p>
                             </div>
                         })}

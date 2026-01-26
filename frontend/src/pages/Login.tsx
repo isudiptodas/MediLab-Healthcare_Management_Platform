@@ -19,18 +19,25 @@ function Login() {
       return;
     }
 
-    const url = selected === 'user' ? "/api/user/login" : "/api/doctor/login";
-    const msg = toast.loading("Registering...")
+    let url = '';
+
+    if (selected === 'user') url = '/api/user/login';
+    if (selected === 'doctor') url = '/api/doctor/login';
+    if (selected === 'hospital') url = '/api/hospital/login';
+
+    const msg = toast.loading("Processing...")
 
     try {
       const res = await axios.post(`http://localhost:5000${url}`, {
         email: email.trim(), password: password.trim()
-      });
+      }, { withCredentials: true});
 
       if (res.status === 200) {
         toast.success("Success");
         setTimeout(() => {
-          navigate(res.data.role === 'user' ? "/user/home" : "/doctor/home");
+          res.data.role === 'user' && navigate('/user/home');
+          res.data.role === 'doctor' && navigate('/doctor/home');
+          res.data.role === 'hospital' && navigate('/hospital/home');
         }, 1000);
       }
     } catch (err: any) {
