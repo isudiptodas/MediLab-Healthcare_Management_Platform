@@ -76,7 +76,20 @@ router.post('/api/doctor/register', arcjetProtect, async (req, res) => {
 
         const abstractAPI = process.env.ABSTRACT_API_KEY;
 
-        const isValid = await axios.get(`https://emailvalidation.abstractapi.com/v1?api_key=${abstractAPI}&email=${email}`);
+        const isValid = await axios.get(`https://emailreputation.abstractapi.com/v1/?api_key=${abstractAPI}&email=${email}`);
+
+        const {
+            is_format_valid,
+            is_smtp_valid,
+            is_mx_valid,
+        } = isValid.data.email_deliverability;
+
+        if (!is_format_valid || !is_mx_valid || !is_smtp_valid) {
+            return res.status(401).json({
+                success: false,
+                message: "Email not valid",
+            });
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 

@@ -1,8 +1,8 @@
-import { arcjet } from '../config/arcjetSecurity.js';
+import { Arcjet } from '../config/arcjetSecurity.js';
 
 export const arcjetProtect = async (req, res, next) => {
   
-  const decision = await arcjet.protect(req, { requested: 5 }); 
+  const decision = await Arcjet.protect(req, { requested: 5 }); 
 
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {

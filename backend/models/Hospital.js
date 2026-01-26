@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const hospitalSchema = mongoose.Schema({
-  name: {type: string, required: true},
-  email: {type: string, required: true},
-  password: {type: string, required: true},
-  hospital: {type: string, required: true},
+  name: {type: String, required: true},
+  email: {type: String, required: true},
+  password: {type: String, required: true},
+  hospital: {type: String, required: true},
   created: {type: Date, required: false, default: Date.now}
 });
 

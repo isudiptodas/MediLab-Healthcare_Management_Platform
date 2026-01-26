@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
 import userAuth from './routes/user/userAuth.js';
 import verifyUser from './routes/user/verifyUser.js';
@@ -16,6 +17,7 @@ import { connectDB } from './config/connectDB.js';
 
 const app = express();
 
+dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
