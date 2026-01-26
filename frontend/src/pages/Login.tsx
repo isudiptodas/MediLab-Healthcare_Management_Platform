@@ -71,6 +71,7 @@ function Login() {
             <div className={`w-full my-2 flex justify-start items-center gap-2`}>
               <p onClick={() => setSelected('user')} className={`text-[12px] py-1 cursor-pointer ${selected === 'user' ? "bg-blue-500 text-white" : "bg-white text-black"} duration-150 ease-in-out px-4 `}>User</p>
               <p onClick={() => setSelected('doctor')} className={`text-[12px] py-1 cursor-pointer ${selected === 'doctor' ? "bg-blue-500 text-white" : "bg-white text-black"} duration-150 ease-in-out px-4 `}>Doctor</p>
+              <p onClick={() => setSelected('hospital')} className={`text-[12px] py-1 cursor-pointer ${selected === 'hospital' ? "bg-blue-500 text-white" : "bg-white text-black"} duration-150 ease-in-out px-4 `}>Hospital</p>
             </div>
 
             <p onClick={login} className={`w-full text-center py-2 mt-2 cursor-pointer active:opacity-80 active:scale-95 duration-150 ease-in-out font-Telegraf font-semibold bg-[#f8a085]`}>Login</p>

@@ -5,9 +5,9 @@ import Register from "./pages/Register";
 import UserWrapper from "./wrapper/UserWrapper";
 import DoctorWrapper from "./wrapper/DoctorWrapper";
 import HospitalWrapper from "./wrapper/HospitalWrapper";
-import Home from "./pages/user/Home";
+import Home from "./pages/user/UserHome";
 import AppointmentBook from "./pages/user/AppointmentBook";
-
+ 
 function App() {
   return (
 
