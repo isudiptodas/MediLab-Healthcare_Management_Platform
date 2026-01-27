@@ -6,6 +6,7 @@ import { Doctor } from '../../models/Doctor.js';
 import { Hospital } from '../../models/Hospital.js';
 import { arcjetProtect } from '../../middleware/arcjetProtect.js';
 import axios from 'axios';
+import { emailQueue } from '../../queues/emailQueue.js';
 
 const router = express.Router();
 
@@ -95,12 +96,21 @@ router.post('/api/user/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
-            name, 
-            email, 
+            name,
+            email,
             password: hashedPassword,
         });
 
         await newUser.save();
+        await emailQueue.add('welcome-email', {
+            email, name
+        }, {
+            attempts: 3,
+            backoff: {
+                type: 'exponential',
+                delay: 1000
+            }
+        });
 
         return res.status(200).json({
             success: true,

@@ -1,8 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-
 import userAuth from './routes/user/userAuth.js';
 import verifyUser from './routes/user/verifyUser.js';
 
@@ -13,12 +14,11 @@ import verifyDoctor from './routes/doctor/verifyDoctor.js';
 import hospitalAuth from './routes/hospital/hospitalAuth.js';
 import verifyHospital from './routes/hospital/verifyHospital.js';
 import manageDoctor from './routes/hospital/manageDoctor.js';
-
+import { emailQueue, emailWorker } from './queues/emailQueue.js';
 import { connectDB } from './config/connectDB.js';
 
 const app = express();
 
-dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
