@@ -11,6 +11,7 @@ import HospitalWrapper from "./wrapper/HospitalWrapper";
 import UserHome from "./pages/user/UserHome";
 import AppointmentBook from "./pages/user/AppointmentBook";
 import AnalyzeReport from "./pages/user/AnalyzeReport";
+import DiseaseDetection from "./pages/user/DiseaseDetection";
 
 import DoctorHome from "./pages/doctor/DoctorHome";
 
@@ -30,6 +31,7 @@ function App() {
       <Route path="/user/home" element={<UserWrapper><UserHome /></UserWrapper>} />
       <Route path="/user/booking" element={<UserWrapper><AppointmentBook /></UserWrapper>} />
       <Route path="/user/report" element={<UserWrapper><AnalyzeReport /></UserWrapper>} />
+      <Route path="/user/detect" element={<UserWrapper><DiseaseDetection /></UserWrapper>} />
       
       <Route path="/doctor/home" element={<DoctorWrapper><DoctorHome /></DoctorWrapper>} />
       

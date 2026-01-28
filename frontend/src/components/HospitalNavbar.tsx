@@ -1,6 +1,7 @@
 import { CiMenuBurger } from "react-icons/ci";
 import { MdOutlineClose } from "react-icons/md";
 import { hospitalMenuStore } from "../zustand/hospitalMenuStore";
+import { Link } from "react-router-dom";
 
 function HospitalNavbar({ pathname }: { pathname: string }) {
 
@@ -10,7 +11,7 @@ function HospitalNavbar({ pathname }: { pathname: string }) {
         <>
             {/* navbar */}
             <div className={`w-full z-30 fixed flex justify-center items-center lg:justify-between lg:px-5 py-4 lg:py-2 border-b-2 border-b-orange-400 backdrop-blur-2xl bg-white/20`}>
-                <p className={`w-full lg:w-[10%] text-black text-lg text-center font-Lora`}>MediLab</p>
+                <Link to='/' className={`w-full lg:w-[10%] text-black text-lg text-center font-Lora`}>MediLab</Link>
                 <span onClick={toggleMenu} className={`w-auto lg:hidden rounded-full bg-linear-to-br from-orange-400 to-orange-600 text-white text-lg absolute right-5 p-2`}><CiMenuBurger /></span>
 
                 <div className={`w-auto hidden lg:flex justify-center items-center gap-3`}>
@@ -26,7 +27,7 @@ function HospitalNavbar({ pathname }: { pathname: string }) {
 
                 <span onClick={toggleMenu} className={`w-auto rounded-full text-black text-xl absolute right-5 p-2 top-2`}><MdOutlineClose /></span>
 
-                <p className={`w-full text-black text-lg py-3 text-center font-Lora`}>MediLab</p>
+                <Link to='/' className={`w-full text-black text-lg py-3 text-center font-Lora`}>MediLab</Link>
                 <div className={`w-[90%] mb-8 h-0.5 bg-linear-to-r from-white via-orange-400 to-white`}></div>
 
                 <p className={`w-full text-start font-Telegraf text-2xl px-4 py-2 ${pathname === '/hospital/home' ? "text-orange-400 font-semibold" : "text-black font-normal"}`}>Home</p>

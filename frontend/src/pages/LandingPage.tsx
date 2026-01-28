@@ -180,6 +180,8 @@ function LandingPage() {
                         <span onClick={() => { setGenderVisible(!genderVisible), setSpecVisible(false) }} className={`w-full cursor-pointer py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
                         <span onClick={() => { setSpecVisible(!specVisible), setGenderVisible(false) }} className={`w-full cursor-pointer py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
                     </div>
+
+                    <p className={`w-full text-center md:w-[60%] xl:w-[40%] px-5 mt-5 font-Telegraf text-black text-sm opacity-65 italic`}>Only verified doctors</p>
                 </div>
 
                 {/* doctor section */}
