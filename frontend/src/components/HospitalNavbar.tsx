@@ -15,6 +15,7 @@ function HospitalNavbar({ pathname }: { pathname: string }) {
 
                 <div className={`w-auto hidden lg:flex justify-center items-center gap-3`}>
                     <p className={`w-auto border-b-2 px-5 py-2 rounded-md ${pathname === '/hospital/home' ? "border-b-orange-400 text-orange-400 font-semibold" : "border-b-transparent text-black"} hover:bg-gray-100 duration-200 ease-in-out cursor-pointer`}>Home</p>
+                    <p className={`w-auto border-b-2 px-5 py-2 rounded-md ${pathname === '/hospital/query' ? "border-b-orange-400 text-orange-400 font-semibold" : "border-b-transparent text-black"} hover:bg-gray-100 duration-200 ease-in-out cursor-pointer`}>Query</p>
                     <p className={`w-auto border-b-2 px-5 py-2 rounded-md ${pathname === '/hospital/profile' ? "border-b-orange-400 text-orange-400 font-semibold" : "border-b-transparent text-black"} hover:bg-gray-100 duration-200 ease-in-out cursor-pointer`}>Profile</p>
                     <p className={`w-auto border-b-2 px-5 py-2 rounded-md ${pathname === '/hospital/settings' ? "border-b-orange-400 text-orange-400 font-semibold" : "border-b-transparent text-black"} hover:bg-gray-100 duration-200 ease-in-out cursor-pointer`}>Settings</p>
                 </div>
@@ -29,6 +30,7 @@ function HospitalNavbar({ pathname }: { pathname: string }) {
                 <div className={`w-[90%] mb-8 h-0.5 bg-linear-to-r from-white via-orange-400 to-white`}></div>
 
                 <p className={`w-full text-start font-Telegraf text-2xl px-4 py-2 ${pathname === '/hospital/home' ? "text-orange-400 font-semibold" : "text-black font-normal"}`}>Home</p>
+                <p className={`w-full text-start font-Telegraf text-2xl px-4 py-2 ${pathname === '/hospital/query' ? "text-orange-400 font-semibold" : "text-black font-normal"}`}>Query</p>
                 <p className={`w-full text-start font-Telegraf text-2xl px-4 py-2 ${pathname === '/hospital/profile' ? "text-orange-400 font-semibold" : "text-black font-normal"}`}>Profile</p>
                 <p className={`w-full text-start font-Telegraf text-2xl px-4 py-2 ${pathname === '/hospital/settings' ? "text-orange-400 font-semibold" : "text-black font-normal"}`}>Settings</p>
             </div>

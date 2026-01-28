@@ -35,6 +35,9 @@ function LandingPage() {
     const [filteredDoctors, setFilteredDoctors] = useState<Doctor[] | null>(null);
     const [input, setInput] = useState<string | null>(null);
     const [option, setOption] = useState<string | null>(null);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
 
     const searchDoctor = () => {
         if (!input) {
@@ -83,12 +86,42 @@ function LandingPage() {
                 
                 setAllDoctors(filtered);
             } catch (err: any) {
-
+                console.log(err);
             }
         }
 
         fetchAllDoctors();
     }, []);
+
+    const sendMessage = async () => {
+        if(!name || !message || !email){
+            toast.error("All fields required");
+            return;
+        }
+
+        const id = toast.loading("Sending ...");
+
+        try {
+            const res = await axios.post(`http://localhost:5000/api/query`, {
+                name, email, message
+            });
+
+            if(res.status === 201){
+                toast.dismiss(id);
+                toast.success("Query submitted");
+                setName('');
+                setEmail('');
+                setMessage('');
+            }
+        } catch (err: any) {
+            if(err.response.data.message){
+                toast.error(err.response.data.message);
+            }
+            else{
+                toast.error("Something went wrong");
+            }
+        }
+    }
 
     return (
         <>
@@ -125,27 +158,27 @@ function LandingPage() {
                     <p className={`w-full font-Telegraf text-[12px] md:text-lg lg:text-[16px] text-center px-5 lg:px-10 text-black`}>Search from a wide range of experienced and qualified doctors across multiple speciality. Filter by name, speciality or gender
                         to find the perfect match for your healthcare needs.</p>
 
-                    <div className={`w-[90%] md:w-[60%] lg:w-[40%] bg-gray-200 h-auto mt-5 md:mt-10 pt-1 rounded-full flex justify-between items-center relative`}>
+                    <div className={`w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] bg-gray-200 h-auto mt-5 md:mt-10 pt-1 rounded-full flex justify-between items-center relative`}>
                         <input onChange={(e) => setInput(e.target.value)} type="text" className={`w-full outline-none rounded-full px-3 py-2 text-[12px] md:text-sm text-black font-Telegraf`} placeholder="Search by name" />
                         <span onClick={searchDoctor} className={`p-2 text-white absolute right-1 top-1 cursor-pointer active:opacity-75 duration-200 ease-in-out rounded-full bg-[#E0A470]`}><IoSearch /></span>
                     </div>
-                    <div className={`w-[90%] md:w-[60%] lg:w-[40%] mt-3 flex justify-between items-center gap-3 relative`}>
+                    <div className={`w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] mt-3 flex justify-between items-center gap-3 relative`}>
 
                         {/* gender option */}
-                        <div className={`w-auto z-30 ${genderVisible ? "block" : "hidden"} absolute top-10 left-[8%] md:left-[10%] lg:left-[15%] bg-black text-white rounded-lg flex flex-col justify-center items-center p-2`}>
+                        <div className={`w-auto z-30 ${genderVisible ? "block" : "hidden"} absolute top-11 left-[8%] md:left-[10%] lg:left-[15%] xl:left-[10%] bg-black text-white rounded-lg flex flex-col justify-center items-center p-2`}>
                             <p onClick={() => { setOption('male'); setGenderVisible(false) }} className={`w-full text-start text-sm lg:text-[12px] font-Telegraf px-5 py-2 rounded-md hover:bg-zinc-700 duration-150 ease-in-out cursor-pointer`}>Male</p>
                             <p onClick={() => { setOption('female'); setGenderVisible(false) }} className={`w-full text-start text-sm lg:text-[12px] font-Telegraf px-5 py-2 rounded-md hover:bg-zinc-700 duration-150 ease-in-out cursor-pointer`}>Female</p>
                         </div>
 
                         {/* speciality option */}
-                        <div className={`w-auto z-30 ${specVisible ? "block" : "hidden"} max-h-[40vh] overflow-y-auto hide-scrollbar absolute top-10 right-0 lg:right-3 bg-black text-white rounded-lg flex flex-col justify-start items-center p-2`}>
+                        <div className={`w-auto z-30 ${specVisible ? "block" : "hidden"} max-h-[40vh] overflow-y-auto hide-scrollbar absolute top-11 right-0 lg:right-3 xl:right-1 bg-black text-white rounded-lg flex flex-col justify-start items-center p-2`}>
                             {speciality.map((spec, index) => {
                                 return <p key={index} onClick={() => { setOption(spec); setSpecVisible(false) }} className={`w-full text-start text-lg lg:text-[12px] font-Telegraf px-5 py-2 rounded-md hover:bg-zinc-700 duration-150 ease-in-out cursor-pointer`}>{spec}</p>
                             })}
                         </div>
 
-                        <span onClick={() => { setGenderVisible(!genderVisible), setSpecVisible(false) }} className={`w-full cursor-pointer py-2 lg:py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
-                        <span onClick={() => { setSpecVisible(!specVisible), setGenderVisible(false) }} className={`w-full cursor-pointer py-2 lg:py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
+                        <span onClick={() => { setGenderVisible(!genderVisible), setSpecVisible(false) }} className={`w-full cursor-pointer py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
+                        <span onClick={() => { setSpecVisible(!specVisible), setGenderVisible(false) }} className={`w-full cursor-pointer py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
                     </div>
                 </div>
 
@@ -235,10 +268,10 @@ function LandingPage() {
 
                     {/* message form */}
                     <div className={`w-full md:w-[50%] xl:w-[40%] mt-7 md:mt-10 px-5 flex flex-col justify-start items-center gap-2`}>
-                        <input type="text" className={`w-full px-3 py-2 rounded-full bg-zinc-800 outline-none font-Telegraf text-white text-[12px] lg:text-[14px]`} placeholder="Enter your name" />
-                        <input type="text" className={`w-full px-3 py-2 rounded-full bg-zinc-800 outline-none font-Telegraf text-white text-[12px] lg:text-[14px]`} placeholder="Enter your query title" />
-                        <textarea className={`w-full h-32 px-3 py-1 rounded-xl bg-zinc-800 outline-none font-Telegraf text-white text-[12px] lg:text-[14px]`} placeholder="Enter your message" />
-                        <p className={`w-full rounded-full text-center text-black py-2 cursor-pointer active:opacity-80 duration-150 ease-in-out font-bold text-[12px] lg:text-sm bg-linear-to-r from-[#ecbd97] to-[#974e03]`}>Send</p>
+                        <input value={name} onChange={(e) => setName(e.target.value)} type="text" className={`w-full px-3 py-2 rounded-full bg-zinc-800 outline-none font-Telegraf text-white text-[12px] lg:text-[14px]`} placeholder="Enter your name" />
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className={`w-full px-3 py-2 rounded-full bg-zinc-800 outline-none font-Telegraf text-white text-[12px] lg:text-[14px]`} placeholder="Enter your email" />
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className={`w-full h-32 px-3 py-1 rounded-xl bg-zinc-800 outline-none font-Telegraf text-white text-[12px] lg:text-[14px]`} placeholder="Enter your message" />
+                        <p onClick={sendMessage} className={`w-full rounded-full text-center text-black py-2 cursor-pointer active:opacity-80 duration-150 ease-in-out font-bold text-[12px] lg:text-sm bg-linear-to-r from-[#ecbd97] to-[#974e03]`}>Send</p>
                     </div>
                 </div>
             </div>

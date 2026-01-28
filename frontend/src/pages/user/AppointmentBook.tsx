@@ -175,27 +175,27 @@ function AppointmentBook() {
         </div>
 
         {/* doctor search option */}
-        <div className={`w-[90%] md:w-[60%] lg:w-[40%] bg-gray-200 h-auto mt-5 md:mt-10 pt-1 rounded-full flex justify-between items-center relative`}>
+        <div className={`w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] bg-gray-200 h-auto mt-5 md:mt-10 pt-1 rounded-full flex justify-between items-center relative`}>
           <input onChange={(e) => setInput(e.target.value)} type="text" className={`w-full outline-none rounded-full px-3 py-2 text-[12px] md:text-sm text-black font-Telegraf`} placeholder="Search by name" />
           <span onClick={searchDoctor} className={`p-2 text-white absolute right-1 top-1 cursor-pointer active:opacity-75 duration-200 ease-in-out rounded-full bg-[#E0A470]`}><IoSearch /></span>
         </div>
-        <div className={`w-[90%] md:w-[60%] lg:w-[40%] mt-3 flex justify-between items-center gap-3 relative`}>
+        <div className={`w-[90%] md:w-[60%] lg:w-[40%] xl:w-[30%] mt-3 flex justify-between items-center gap-3 relative`}>
 
           {/* gender option */}
-          <div className={`w-auto z-30 ${genderVisible ? "block" : "hidden"} absolute top-10 left-[8%] md:left-[10%] lg:left-[15%] bg-black text-white rounded-lg flex flex-col justify-center items-center p-2`}>
+          <div className={`w-auto z-30 ${genderVisible ? "block" : "hidden"} absolute top-11 left-[8%] md:left-[10%] lg:left-[15%] xl:left-[10%] bg-black text-white rounded-lg flex flex-col justify-center items-center p-2`}>
             <p onClick={() => { setOption('male'); setGenderVisible(false) }} className={`w-full text-start text-sm lg:text-[12px] font-Telegraf px-5 py-2 rounded-md hover:bg-zinc-700 duration-150 ease-in-out cursor-pointer`}>Male</p>
             <p onClick={() => { setOption('female'); setGenderVisible(false) }} className={`w-full text-start text-sm lg:text-[12px] font-Telegraf px-5 py-2 rounded-md hover:bg-zinc-700 duration-150 ease-in-out cursor-pointer`}>Female</p>
           </div>
 
           {/* speciality option */}
-          <div className={`w-auto z-30 ${specVisible ? "block" : "hidden"} max-h-[40vh] overflow-y-auto hide-scrollbar absolute top-10 right-0 lg:right-3 bg-black text-white rounded-lg flex flex-col justify-start items-center p-2`}>
+          <div className={`w-auto z-30 ${specVisible ? "block" : "hidden"} max-h-[40vh] overflow-y-auto hide-scrollbar absolute top-11 right-0 lg:right-3 xl:right-1 bg-black text-white rounded-lg flex flex-col justify-start items-center p-2`}>
             {speciality.map((spec, index) => {
               return <p key={index} onClick={() => { setOption(spec); setSpecVisible(false) }} className={`w-full text-start text-lg lg:text-[12px] font-Telegraf px-5 py-2 rounded-md hover:bg-zinc-700 duration-150 ease-in-out cursor-pointer`}>{spec}</p>
             })}
           </div>
 
-          <span onClick={() => { setGenderVisible(!genderVisible), setSpecVisible(false) }} className={`w-full cursor-pointer py-2 lg:py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
-          <span onClick={() => { setSpecVisible(!specVisible), setGenderVisible(false) }} className={`w-full cursor-pointer py-2 lg:py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
+          <span onClick={() => { setGenderVisible(!genderVisible), setSpecVisible(false) }} className={`w-full cursor-pointer py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaPerson /> Gender</span>
+          <span onClick={() => { setSpecVisible(!specVisible), setGenderVisible(false) }} className={`w-full cursor-pointer py-3 active:opacity-80 duration-200 ease-in-out flex justify-center items-center gap-2 text-white font-Telegraf bg-black rounded-full text-[12px]`}><FaHandHoldingMedical /> Speciality</span>
         </div>
 
         {/* doctor list */}
