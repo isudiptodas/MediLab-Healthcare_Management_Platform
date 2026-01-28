@@ -16,6 +16,8 @@ import verifyDoctor from './routes/doctor/verifyDoctor.js';
 import hospitalAuth from './routes/hospital/hospitalAuth.js';
 import verifyHospital from './routes/hospital/verifyHospital.js';
 import manageDoctor from './routes/hospital/manageDoctor.js';
+
+import query from './routes/queryMessage.js';
 import passwordRecovery from './routes/passwordRecovery.js';
 
 import { emailQueue, emailWorker } from './queues/emailQueue.js';
@@ -47,6 +49,7 @@ app.use(verifyHospital);
 app.use(manageDoctor);
 
 app.use(passwordRecovery);
+app.use(query);
 
 app.listen(port, () => {
   console.log(`server started`);

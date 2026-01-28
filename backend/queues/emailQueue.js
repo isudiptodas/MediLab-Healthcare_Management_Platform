@@ -21,7 +21,7 @@ export const emailWorker = new Worker('email', async job => {
             });
 
             if (error) {
-                return res.status(400).json({ error });
+                console.log(error);
             }
         } catch (err) {
             console.log(err);
@@ -36,11 +36,12 @@ export const emailWorker = new Worker('email', async job => {
                 from: process.env.RESEND_EMAIL,
                 to: [email],
                 subject: 'Account Rejected',
-                html: `<h1>MediLab</h1> \n Sorry to inform you ${name}.\n Unfortunately your doctor profile for MediLab has been rejected by ${hospital}`
+                html: `<h1>MediLab</h1> \n <p>Sorry to inform you ${name}.\n Unfortunately your doctor profile 
+                       for MediLab has been rejected by <b>${hospital}</b></p>`
             });
 
             if (error) {
-                return res.status(400).json({ error });
+                console.log(error);
             }
         } catch (err) {
             console.log(err);
@@ -55,12 +56,12 @@ export const emailWorker = new Worker('email', async job => {
                 from: process.env.RESEND_EMAIL,
                 to: [email],
                 subject: 'Account Verified',
-                html: `<h1>MediLab</h1> \n Congratulations ${name}.\n Your doctor profile for MediLab has been approved by ${hospital}.\n
-                       You can now start receiving appointments.`
+                html: `<h1>MediLab</h1> \n <p>Congratulations ${name}.\n Your doctor profile for MediLab has been approved by <b>${hospital}</b>.\n
+                       You can now start receiving appointments.</p>`
             });
 
             if (error) {
-                return res.status(400).json({ error });
+                console.log(error);
             }
         } catch (err) {
             console.log(err);
@@ -75,13 +76,13 @@ export const emailWorker = new Worker('email', async job => {
                 from: process.env.RESEND_EMAIL,
                 to: [email],
                 subject: 'Password Changed',
-                html: `<h1>MediLab</h1> \n Hello ${name}.\n We saw you changed your password recently. \n
+                html: `<h1>MediLab</h1>\n\n <p> Hello ${name}.\n We saw you changed your password recently. \n
                        If it's done by you then you can ignore this mail otherwise you can report a message to us 
-                       and we will look on this matter as earliest as possible.`
+                       and we will look on this matter as earliest as possible.</p>`
             });
 
             if (error) {
-                return res.status(400).json({ error });
+                console.log(error);
             }
         } catch (err) {
             console.log(err);
@@ -96,14 +97,36 @@ export const emailWorker = new Worker('email', async job => {
                 from: process.env.RESEND_EMAIL,
                 to: [email],
                 subject: 'Appointment Scheduled',
-                html: `<h1>MediLab</h1> \n Hello ${name} <p>\n A new appointment was scheduled for
-                <b>${date}</b> on time between <b>${timeSlot}</b></p> \n\n <p>We hope you will have a seamless
-                appointment experience.</p>\n\n
-                <b>Doctor name : ${doctorName}</b>\n <b>Patient name : ${name}</b>\n<b>Date : ${date}</b>\n<b>Time slot : ${timeSlot}</b>`
+                html: `<h1>MediLab</h1> \n<p>Hello ${name} \n A new appointment was scheduled for
+                      <b>${date}</b> on time between <b>${timeSlot}</b></p> \n\n <p>We hope you will have a seamless
+                      appointment experience.</p>\n\n
+                      <p><b>Doctor name : ${doctorName}</b></p> \n <p><b>Patient name : ${name}</b></p> \n
+                      <p><b>Date : ${date}</b></p> \n <p><b>Time slot : ${timeSlot}</b></p>`
             });
 
             if (error) {
-                return res.status(400).json({ error });
+                console.log(error);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // notify a user on query message submit
+    if (job.name === 'query-message') {
+        try {
+            const { name, email } = job.data;
+            const { data, error } = await resend.emails.send({
+                from: process.env.RESEND_EMAIL,
+                to: [email],
+                subject: 'Query Submitted',
+                html: `<h1>MediLab</h1> \n  <p>Hello ${name},</p>\n <p>This mail is to let you know
+                      that we got your query message and we will try to respond to your query as earliest
+                      as possible.</p>\n\n <p>Thank you for having patience and trusting us.</p>`
+            });
+
+            if (error) {
+                console.log(error);
             }
         } catch (err) {
             console.log(err);
